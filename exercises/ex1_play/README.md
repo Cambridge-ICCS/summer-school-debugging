@@ -8,13 +8,13 @@ intermittent failure.
 
 ## Lesson Objectives
 
--[x] how to start `gdb`
--[x] how to view the Textual User Interface (TUI) (`--tui` or `CTRL-X-A`)
--[x] basic stepping commands (`next` and `step`)
--[x] how to set breakpoints (`break`)
--[x] skip commands (`run`, `continue` and `until`)
--[x] how to set breakpoints (`break`)
--[x] how to print variables (`print`)
+- [x] how to start `gdb`
+- [x] how to view the Textual User Interface (TUI) (`--tui` or `CTRL-X-A`)
+- [x] basic stepping commands (`next` and `step`)
+- [x] how to set breakpoints (`break`)
+- [x] skip commands (`run`, `continue` and `until`)
+- [x] how to set breakpoints (`break`)
+- [x] how to print variables (`print`)
 
 ## Building
 
