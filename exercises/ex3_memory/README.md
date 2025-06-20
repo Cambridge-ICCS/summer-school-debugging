@@ -3,11 +3,23 @@
 This directory contains a toy example program that demonstrates memory
 management issues in both C++ and Fortran. The main goal is to illustrate
 debugging techniques for memory-related bugs, such as buffer overflows or
-invalid memory access, using `gdb` and its `commands` feature.
+invalid memory access, using `gdb`.
 
-The ultimate aim is to use the debugger to set breakpoints and inspect the
-program state at the moment a memory error occurs, helping you understand and
-resolve such bugs.
+We will learn how to use the `watch` command to track invalid memory read/writes
+which will help us identify the source of our buffer overflow.
+
+Buffer overflows can be very difficult to detect as they don't typically
+generate compiler errors and they often don't trigger runtime errors either!
+Even worse, programs with buffer overflows can appear to run correctly, but they
+subtly modify the programs state with unintended consequences.
+
+Memory bugs often depend on the environment they are run in, e.g., the compiler
+used, the system architecture, compiler flags used and so on. So for this
+example, in order to get a "*consistent*" memory bug that always occurs I had to
+use a rather contrived example. This is because I wanted to guarantee that the
+memory I corrupt is in a specific part of my program. However, it's important to
+note that memory errors can occur in C++/Fortran codes even if the memory isn't
+allocated in this specific way.
 
 ## Building
 
@@ -18,27 +30,71 @@ make
 ```
 
 This will compile the source files `sums.cpp`/`sums.f90` and produce the
-executables `sums-*.exe`.
+executables `sums-cpp.exe`/`sums-f90.exe` respectively.
 
-Both codes perform operations on arrays and are designed to trigger memory
-errors under certain conditions. For example, they may access memory outside the
-bounds of an array, causing a segmentation fault or a Fortran runtime error.
+Both codes perform summation operations on two arrays, one to compute the sum of
+integers from 1 to 50, and the other to compute the sum of its squares. If we
+try running the executable we get the following:
 
-In C++, a typical error might look like:
-
-```cpp
-    int arr[10];
-    arr[10] = 42; // Out-of-bounds access (valid indices are 0-9)
+```bash
+$ ./sums-cpp.exe
+sum of integers from 1 to 50 is :: 1275
+Error :: sum of the squares of integers from 1 to 50 is wrong.
 ```
 
-In Fortran, a similar error could be:
+In the next section we will look into how we can use `gdb` to track down this
+issue.
 
-```fortran
-    integer, dimension(10) :: arr
-    arr(11) = 42 ! Out-of-bounds access (valid indices are 1-10)
+## Explore
+
+Luckily our code has detected there is some kind of issue. For some reason the
+sum of squares is incorrect. So how would we start debugging this scenario.
+
+One approach is to set a breakpoint at the site of the problem, and then work
+our way backwards.
+
+I will show the commands for the C++ version but this applies just as equally to
+the fortran example.
+
+First we will run our program in the `gdb` debugger
+
+```bash
+gdb -q ./sums-cpp.exe
 ```
 
-## Debugging
+The `-q` flag is not essential, it runs `gdb` in quiet mode, suppressing the
+introductory and copyright messages.
+
+Once in `gdb` we can issue the `start` command to begin program execution and
+stop at the main function. This will allow us to set breakpoints before any user
+code executes.
+
+Recall that our code failed with error saying the sum of squares is wrong. That
+print statement occurs on line 62, in functon `validate_square_sum`. Let's set a
+breakpoint (`break`) here and start our investigation.
+
+```
+$ (gdb) break validate_square_sum
+Breakpoint 1 at 0x1376: file sums.cpp, line 57.
+```
+
+Now we can `run` the binary and we will stop when we reach the breakpoint.
+
+```
+$ (gdb) run
+Starting program:
+/workspaces/summer-school-debugging/exercises/ex3_memory/sums-cpp.exe 
+warning: Error disabling address space randomization: Operation not permitted
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+sum of integers from 1 to 50 is :: 1275
+
+Breakpoint 1, validate_square_sum (sum=42975) at sums.cpp:57
+57        if (sum == (N * (N + 1) * (2 * N + 1)) / 6) {
+```
+
+
+## Solution
 
 `gdb` debug scripts (`sums-*.gdb`) are provided to help debug the C++ and
 Fortran versions of the code. To debug the Fortran program using `gdb` and the
