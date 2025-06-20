@@ -1,4 +1,4 @@
-program array_example
+program play
     implicit none
 
     integer :: i
@@ -41,4 +41,4 @@ program array_example
         var = 2 * var
     end subroutine multiply_by_two
 
-end program array_example
+end program play

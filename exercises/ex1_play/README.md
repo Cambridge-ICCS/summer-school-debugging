@@ -7,7 +7,7 @@ programs in the following examples.
 
 ## Lesson Objectives
 
-- [x] how to start `gdb`
+- [x] how to start `gdb` and debugging (`start`)
 - [x] how to view the Textual User Interface (TUI) (`--tui` or `CTRL-X-A`)
 - [x] basic stepping commands (`next` and `step`)
 - [x] how to set breakpoints (`break`)
@@ -59,9 +59,28 @@ Reading symbols from ./play-f90.exe...
 (gdb)
 ```
 
+Currently the debugger is launched but we have not started running our target binary yet
+(`play-f90.exe`). To do anything useful in the debugger we will need to start running the target
+using the `start` command.
+
+```
+(gdb) start
+Temporary breakpoint 1 at 0x11e2: file play.f90, line 1.
+Starting program: /workspaces/summer-school-debugging/exercises/ex1_play/play-f90.exe 
+warning: Error disabling address space randomization: Operation not permitted
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Temporary breakpoint 1, array_example () at play.f90:1
+1       program array_example
+```
+
+Brilliant, from the output we can see a temporary breakpoint has been set at the start of our
+program
+
 This our first step to using the debugger. Before we get started properly, it would be good to know
 how to exit the debugger as well. This can be done by typing the `quit` command or by pressing the
-keyboard shortcut `CTRL+D`.
+keyboard shortcut `CTRL-D`.
 
 Whilst it's handy to see `gdb`'s help text the first time we run `gdb`, we will be running it a lot
 this course. So let's launch `gdb` with the `-q` quiet flag which will silence the start up message.
@@ -90,7 +109,15 @@ This should looks something like the following:
 
 ![gdbtui](https://github.com/Cambridge-ICCS/summer-school-debugging/blob/main/exercises/ex1_play/imgs/gdb-tui.png)
 
+> [!NOTE]
+> You can switch between TUI and CLI by pressing `CTRL-X+A`.
+
+For the rest of the course (except the MPI exercise) you can chose to use the CLI or the TUI.
+
 ### Basic stepping commands
+
+
+
 ### How to set breakpoints
 ### Skip commands
 ### How to set breakpoints
