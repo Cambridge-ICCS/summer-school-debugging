@@ -116,7 +116,7 @@ Reading symbols from ./play-f90.exe...
 (gdb)
 ```
 
-![gdbtui](https://github.com/Cambridge-ICCS/summer-school-debugging/tree/main/exercises/ex1_play/imgs/gdb-tui.png)
+![gdbtui](https://github.com/Cambridge-ICCS/summer-school-debugging/blob/main/exercises/ex1_play/imgs/gdb-tui.png)
 
 ### Basic stepping commands
 ### How to set breakpoints
