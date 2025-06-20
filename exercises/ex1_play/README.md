@@ -71,12 +71,15 @@ warning: Error disabling address space randomization: Operation not permitted
 [Thread debugging using libthread_db enabled]
 Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
 
-Temporary breakpoint 1, array_example () at play.f90:1
-1       program array_example
+Temporary breakpoint 1, play () at play.f90:1
+1       program play
 ```
 
 Brilliant, from the output we can see a temporary breakpoint has been set at the start of our
-program
+program (`Temporary breakpoint 1, play () at play.f90:1`) and that the debugger is currently waiting
+on line 1 of our source file `play-f90.exe` waiting to execute line `1       program play`. We will
+discuss breakpoints in more detail in the later part of this example. They allow us to instruct the
+debugger to pause our target program at specific points.
 
 This our first step to using the debugger. Before we get started properly, it would be good to know
 how to exit the debugger as well. This can be done by typing the `quit` command or by pressing the
