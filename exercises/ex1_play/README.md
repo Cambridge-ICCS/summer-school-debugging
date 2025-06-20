@@ -88,34 +88,6 @@ $ gdb -q --tui ./play-f90.exe
 
 This should looks something like the following:
 
-```fortran
-┌─play.f90──────────────────────────────────────────────────────┐
-│        1  program array_example                               │
-│        2      implicit none                                   │
-│        3                                                      │
-│        4      integer :: i                                    │
-│        5      integer, dimension(10) :: data                  │
-│        6      integer :: int_var                              │
-│        7      real :: real_var                                │
-│        8      double precision :: double_var                  │
-│        9      logical :: logical_var                          │
-│       10                                                      │
-│       11      ! Populate the array with values from 1 to 10   │
-│       12      do i = 1, 10                                    │
-│       13          data(i) = i                                 │
-│       14      end do                                          │
-│       15                                                      │
-│       16      ! Assign values to variables                    │
-│       17      int_var = 5                                     │
-│       18      real_var = 3.14                                 │
-│       19      double_var = 2.718281828459045d0                │
-│       20      logical_var = .true.                            │
-└───────────────────────────────────────────────────────────────┘
-exec No process In:                               L??   PC: ?? 
-Reading symbols from ./play-f90.exe...
-(gdb)
-```
-
 ![gdbtui](https://github.com/Cambridge-ICCS/summer-school-debugging/blob/main/exercises/ex1_play/imgs/gdb-tui.png)
 
 ### Basic stepping commands
