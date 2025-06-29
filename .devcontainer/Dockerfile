@@ -40,7 +40,8 @@ COPY --from=uv --chown=vscode: /uv /uvx /bin/
 USER vscode
 
 RUN uv tool install git+https://github.com/TomMelt/mdb.git \
-    && uv tool install git+https://github.com/TomMelt/bplot.git
+    && uv tool install git+https://github.com/TomMelt/bplot.git \
+    && uv tool install termgraph
 
 COPY .bashrc_customization /home/vscode/
 RUN echo "source /home/vscode/.bashrc_customization" >> /home/vscode/.bashrc
