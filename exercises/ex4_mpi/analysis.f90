@@ -3,7 +3,7 @@ program analysis
 
   implicit none
 
-  integer :: rank
+  integer :: my_rank
   integer, parameter :: array_len = 20, total_len = 80
 
   call main()
@@ -23,22 +23,22 @@ contains
 
     ! Initialize the MPI environment
     call MPI_Init(ierr)
-    call MPI_Comm_rank(MPI_COMM_WORLD, rank, ierr)
+    call MPI_Comm_rank(MPI_COMM_WORLD, my_rank, ierr)
     call MPI_Comm_size(MPI_COMM_WORLD, size, ierr)
 
-    if (rank == 0) then
+    if (my_rank == 0) then
       allocate(analysed_data(total_len))
     end if
 
     ! Ensure the program is running with exactly 4 processes
     if (size /= 4) then
-      if (rank == 0) print *, 'This program requires exactly 4 processes.'
+      if (my_rank == 0) print *, 'This program requires exactly 4 processes.'
       call MPI_Abort(MPI_COMM_WORLD, 1, ierr)
     end if
 
     ! generate fake input data (this would have been read from file normally)
-    input_data = (/(rank * array_len + i, i = 1, array_len)/)
-    print '("Process ", i1, " input_data:", 20(i4, ","))', rank, input_data
+    input_data = (/(my_rank * array_len + i, i = 1, array_len)/)
+    print '("Process ", i1, " input_data:", 20(i4, ","))', my_rank, input_data
     call flush()
 
     ! process data on each rank
@@ -53,10 +53,10 @@ contains
     end if
 
     call MPI_Barrier(MPI_COMM_WORLD, ierr)
-    print '("Process ", i1, " data gathered")', rank
+    print '("Process ", i1, " data gathered")', my_rank
     call flush()
 
-    if (rank == 0) then
+    if (my_rank == 0) then
       print *, "processing final array..."
       call flush()
 
@@ -105,7 +105,7 @@ contains
     end do
 
     ! fake some erroneous data
-    if (rank == 3) then
+    if (my_rank == 3) then
       data(3) = 0
     end if
   end subroutine process_partial_data

@@ -87,7 +87,12 @@ $ mpirun -n 4 ./analysis-f90.exe
 > This code is designed specifically to run on 4 processes, so it will only work when run with
 > `mpirun -n 4`.
 
-I get the following:
+This will give something like the following
+
+> [!NOTE]
+> The order of the output will most likely be different to the one below. In general, MPI processes
+> can run in any order and therefore the first one to write output can vary from run to run. Try
+> running it a couple of times and see what happens.
 
 ```bash
 $ mpirun -n 4 ./analysis-f90.exe
@@ -103,7 +108,9 @@ gathering data...
 
 But then it appears to hang forever. Because this code is relatively small we would expect it to
 execute almost immediately. So it appears there is something wrong. Let's use `mdb` to investigate
-further.
+further. On your keyboard press `CTRL+C` in the terminal to terminate the `mpirun` command.
+
+
 
 ### Initial investigation
 
