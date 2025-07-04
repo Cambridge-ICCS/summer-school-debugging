@@ -9,19 +9,19 @@
         "bierner.markdown-checkbox",
         "bierner.markdown-emoji",
         "kejun.markdown-alert",
-        "bierner.markdown-preview-github-styles",
-        "fortran-lang.linter-gfortran"
-      ],
-      "commands": [
-        "workbench.action.terminal.new"
+        "bierner.markdown-preview-github-styles"
       ],
       "settings": {
         "workbench.editorAssociations": {
             "*.md": "vscode.markdown.preview.editor"
         }
       }
-    }
+    },
+    "codespaces": {
+    "openFiles": [
+      "README.md"
+    ]
+  }
   },
-  "remoteUser": "vscode",
-  "postCreateCommand": "code README.md"
+  "remoteUser": "vscode"
 }
